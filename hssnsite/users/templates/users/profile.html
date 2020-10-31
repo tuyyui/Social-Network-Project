@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class = "row">
+<div class = "content-section">
+    <div class = "media">
+        <img class ="rounded-circle account-img" src= "{{ user.profile.image.url }}"/>
+        <div class = "media-body">
+            <h2 class = "account-heading">{{user.first_name}}</h2>
+            <h2 class = "account-heading">{{user.last_name}}</h2>
+
+        </div>
+    </div>
+ <form method = "POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class = "form-group">
+            <legend class = "border-bottom mb-4">Profile</legend>
+             {{ p_form|crispy }}
+
+
+        </fieldset>
+        <div class = "form-group">
+            <button class = "btn btn-outline-info" type ="submit">Update</button>
+            <button class = "btn btn-outline-info" type = "">Connect</button>
+
+        </div>
+    </form>
+</div>
+
+<aside class="col-md-4 blog-sidebar">
+          <div class="content-section">
+            <h3>Connections</h3>
+              <p> There are a total of {{ data.users_count}} in our database </p>
+              <table class = "table table-light">
+              {% for ruser in data.users %}
+                  <tr>
+              <td>{{ruser.user.user.first_name}} {{ruser.user.user.last_name}} <p>Ethnicity: {{ruser.user.ethnic}}</p> <p>Siblings: {{ruser.user.family_size}}</p></td>
+                  </tr>
+
+
+              {% endfor %}
+                  </table>
+
+
+
+
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light">You have been connected to the <a href = "isuroon.org">isuroon</a></li>
+
+              </ul>
+
+          </div>
+        </aside>
+     <aside class="content-section">
+         <div class ="media">
+
+                    <h3>Useful Links Related to {{data.useful_links}} group!</h3>
+                    {% for item in useful_links %}
+                    <a href="{{item}}">{{item}}</a></br>
+                    {% endfor %}
+         </div>
+          </aside>
+</div>
+{% endblock content %}
